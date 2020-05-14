@@ -27,17 +27,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    var {
-      name,
-
-      period,
-    } = req.body;
+    var { name, type, number, period } = req.body;
 
     //Build device object
     const deviceFields = {};
     deviceFields.user = req.user.id;
 
     if (name) deviceFields.name = name;
+    if (type) deviceFields.type = type;
+    if (number) deviceFields.number = number;
     if (period) deviceFields.period = period;
 
     try {

@@ -51,7 +51,7 @@ console.log('formData', formData)
         </div>
         <div className="form-group">
           <input
-            type="text"
+            type="number"
             placeholder="number"
             name="number"
             value={number}
