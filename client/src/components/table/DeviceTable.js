@@ -126,10 +126,10 @@ const DeviceTable = ({ device, deleteDevice }) => {
             <th onClick={onSort.bind(null, "name")} scope="col">
               Наименование
             </th>
-            <th onClick={onSort.bind(null, "name")} scope="col">
+            <th onClick={onSort.bind(null, "type")} scope="col">
               тип
             </th>
-            <th onClick={onSort.bind(null, "name")} scope="col">
+            <th onClick={onSort.bind(null, "number")} scope="col">
               номер
             </th>
             <th onClick={onSort.bind(null, "period")} scope="col">
