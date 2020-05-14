@@ -9,6 +9,7 @@ import _ from "lodash";
 import PutCalibration from "../device-forms/PutCalibration";
 
 const DeviceTable = ({ device, deleteDevice }) => {
+  console.log('device', device)
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState("asc");
   const [sortField, setsortField] = useState("name");
@@ -16,7 +17,7 @@ const DeviceTable = ({ device, deleteDevice }) => {
     setData(device);
   }, [device]);
   const [data, setData] = useState(device);
-  console.log("data", data);
+  
   const search = (items, term) => {
     if (term.trim().length === 0) {
       return items;
@@ -25,13 +26,13 @@ const DeviceTable = ({ device, deleteDevice }) => {
   };
 
   const visibleDevices = search(data, title);
-console.log('visibleDevices', visibleDevices)
+
   const onSort = (sortField) => {
     const clonedData = data.concat();
     const sortType = sort === "asc" ? "desc" : "asc";
-    console.log("object", clonedData);
+    
     const orderedData = _.orderBy(clonedData, sortField, sortType);
-    console.log("orderedData", orderedData);
+    
     setData(orderedData);
     setSort(sortType);
     setsortField(sortField);
@@ -47,6 +48,8 @@ console.log('visibleDevices', visibleDevices)
    
     <tr key={dev._id}>
       <td>{dev.name}</td>
+      <td>{dev.type}</td>
+      <td>номер</td>
       <td>{dev.period}</td>
       <td>
         {dev.check[0] ? (
@@ -123,6 +126,12 @@ console.log('visibleDevices', visibleDevices)
           <tr>
             <th onClick={onSort.bind(null, "name")} scope="col">
               Наименование
+            </th>
+            <th onClick={onSort.bind(null, "name")} scope="col">
+             тип
+            </th>
+            <th onClick={onSort.bind(null, "name")} scope="col">
+              номер
             </th>
             <th onClick={onSort.bind(null, "period")} scope="col">
               Период поверки
