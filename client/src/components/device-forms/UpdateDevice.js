@@ -21,10 +21,10 @@ const UpdateDevice = ({
     //     period: loading || !device.period ? '' : device.period
     // });
     setFormData({
-      name: loading || !device.name ? "!!!" : device.name,
-      type: loading || !device.name ? "!!!" : device.type,
-      number: loading || !device.name ? "!!!" : device.number,
-      period: loading || !device.period ? "!!!" : device.period,
+      name: loading || !device.name ? "loading" : device.name,
+      type: loading || !device.name ? "loading" : device.type,
+      number: loading || !device.name ? "loading" : device.number,
+      period: loading || !device.period ? "loading" : device.period,
     });
   }, [getDeviceById, device.name, device.period]);
 
