@@ -30,10 +30,22 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case UPDATE_DEVICE:
+      const id = payload.id;
+      const name = payload.formData.name;
+      
       return {
-        state,
-        // device: payload,
-        // loading: false
+        ...state,
+        devices: state.devices.map((device)=>{
+            if(device._id===payload.id){
+                device.name=payload.formData.name
+                device.type=payload.formData.type
+                device.number=payload.formData.number
+                device.period=payload.formData.period
+            }
+            return device
+
+        }),
+        loading: false,
       };
     case DELETE_DEVICE:
       return {

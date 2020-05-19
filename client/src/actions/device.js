@@ -1,7 +1,13 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 
-import { GET_DEVICES, DEVICES_ERROR, GET_DEVICE, DELETE_DEVICE } from "./types";
+import {
+  GET_DEVICES,
+  DEVICES_ERROR,
+  GET_DEVICE,
+  DELETE_DEVICE,
+  UPDATE_DEVICE,
+} from "./types";
 
 // Get current user devices
 export const getCurrentDevices = () => async (dispatch) => {
@@ -95,20 +101,15 @@ export const addNewCalibration = (device_id, formData, history) => async (
 export const updateDevice = (device_id, formData, history) => async (
   dispatch
 ) => {
-  
   try {
-   
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-console.log('formData', formData)
-    const res = await axios.post(
-      `/api/devices/${device_id}`,
-      formData,
-      config
-    );
+    console.log("formData", formData);
+    dispatch({ type: UPDATE_DEVICE, payload: { formData, id: device_id } });
+    const res = await axios.post(`/api/devices/${device_id}`, formData, config);
 
     dispatch(setAlert("Device update successfully", "success"));
 
