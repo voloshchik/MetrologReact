@@ -22,17 +22,21 @@ const UpdateDevice = ({
     // });
     setFormData({
       name: loading || !device.name ? "!!!" : device.name,
+      type: loading || !device.name ? "!!!" : device.type,
+      number: loading || !device.name ? "!!!" : device.number,
       period: loading || !device.period ? "!!!" : device.period,
     });
   }, [getDeviceById, device.name, device.period]);
 
   const [formData, setFormData] = useState({
     name: "",
+    type: "",
+    number: "",
     period: "",
   });
 
-  const { name, period } = formData;
-  console.log("name", name);
+  const { name,type,number, period } = formData;
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -56,6 +60,24 @@ const UpdateDevice = ({
             placeholder="name"
             name="name"
             value={name}
+            onChange={(e) => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="type"
+            name="type"
+            value={type}
+            onChange={(e) => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="number"
+            name="name"
+            value={number}
             onChange={(e) => onChange(e)}
           />
         </div>
