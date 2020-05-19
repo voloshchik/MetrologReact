@@ -67,13 +67,15 @@ router.post("/:id", auth, async (req, res) => {
     return res.status(401).json({ msg: "User not authorized" });
   }
 
-  var { name, period } = req.body;
+  var { name, type, number, period } = req.body;
 
   const deviceFields = {};
   deviceFields.user = req.user.id;
 
   if (name) deviceFields.name = name;
   if (period) deviceFields.period = period;
+  if (type) deviceFields.type = type;
+  if (number) deviceFields.number = number;
 
   try {
     device = await Device.findByIdAndUpdate(

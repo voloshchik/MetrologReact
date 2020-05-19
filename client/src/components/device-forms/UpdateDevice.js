@@ -3,19 +3,19 @@ import Spinner from "../layout/Spinner";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getDeviceById } from "../../actions/device";
+import { getDeviceById, updateDevice } from '../../actions/device';
 
 const UpdateDevice = ({
   devices: { device, loading },
   getDeviceById,
   history,
   match,
+  updateDevice
 }) => {
-  console.log("device", device);
-  console.log("loading", loading);
+  
   useEffect(() => {
     getDeviceById(match.params.id);
-    console.log("useEffectUpdateDevice");
+   
     // setFormData({
     //     name: loading || !device.name ? '' : device.name,
     //     period: loading || !device.period ? '' : device.period
@@ -42,6 +42,9 @@ const UpdateDevice = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+   
+    updateDevice(match.params.id,formData,history)
+    
     //addNewDevice(formData, history);
   };
 
@@ -76,7 +79,7 @@ const UpdateDevice = ({
           <input
             type="text"
             placeholder="number"
-            name="name"
+            name="number"
             value={number}
             onChange={(e) => onChange(e)}
           />
@@ -90,7 +93,7 @@ const UpdateDevice = ({
             onChange={(e) => onChange(e)}
           />
         </div>
-        <input
+        <input onClick={(e)=>onSubmit(e)}
           type="submit"
           className="btn btn-primary my-1"
           value="Обновить"
@@ -112,6 +115,6 @@ const mapStateToProps = (state) => ({
   devices: state.devices,
 });
 
-export default connect(mapStateToProps, { getDeviceById })(
+export default connect(mapStateToProps, { getDeviceById ,updateDevice})(
   withRouter(UpdateDevice)
 );
