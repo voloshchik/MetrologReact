@@ -45,26 +45,24 @@ const DeviceTable = ({ device, deleteDevice }) => {
 
   const devices = visibleDevices.map((dev) => {
     const classes = ["table"];
-    console.log('classes', classes)
+    console.log("classes", classes);
     if (dev.check[0]) {
-      console.log("dev.check[0].nextCheck", dev.check[0].nextCheck);
       const nextCheck = new Date(dev.check[0].nextCheck).getTime();
       const dateNow = new Date().getTime();
-      console.log("dateNow", dateNow);
-      console.log("nextCheck", nextCheck);
-      if (dateNow > nextCheck - 864000000) {
+
+      const period = nextCheck - dateNow;
+
+      if (period <= 864000000 && period > 1) {
+        classes.push("yellow");
+      }
+      if (period < 1) {
         classes.push("red");
-        console.log("пора проверять");
-      } else {
-        console.log("еще не пора праверять");
       }
     }
 
-    if (dev.period) {
-    }
     return (
       <tr key={dev._id}>
-        <td className={classes.join(' ')}>{dev.name}</td>
+        <td className={classes.join(" ")}>{dev.name}</td>
         <td>{dev.type}</td>
         <td>{dev.number}</td>
         <td>{dev.period}</td>
@@ -139,7 +137,7 @@ const DeviceTable = ({ device, deleteDevice }) => {
     <>
       <h2 className="my-2">База данных СИ</h2>
       <input type="text" value={title} onChange={handleTitle} />
-      
+
       <table className="table table-bordered">
         <thead>
           <tr>
