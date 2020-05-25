@@ -7,9 +7,8 @@ import { deleteDevice } from "../../actions/device";
 import { connect } from "react-redux";
 import _ from "lodash";
 import PutCalibration from "../device-forms/PutCalibration";
-
+import "./DeviceTable.css";
 const DeviceTable = ({ device, deleteDevice }) => {
-  console.log("device", device);
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState("asc");
   const [sortField, setsortField] = useState("name");
@@ -44,82 +43,103 @@ const DeviceTable = ({ device, deleteDevice }) => {
     setTitle(e.target.value);
   };
 
-  const devices = visibleDevices.map((dev) => (
-    <tr key={dev._id}>
-      <td>{dev.name}</td>
-      <td>{dev.type}</td>
-      <td>{dev.number}</td>
-      <td>{dev.period}</td>
-      <td>
-        {dev.check[0] ? (
-          <Moment format="DD.MM.YYYY">{dev.check[0].lastCheck}</Moment>
-        ) : (
-          "Нет данных"
-        )}
-      </td>
-      <td>
-        {dev.check[0] ? (
-          <Moment format="DD.MM.YYYY">{dev.check[0].nextCheck}</Moment>
-        ) : (
-          "Нет данных"
-        )}
-      </td>
-      <td>
-        <div
-          class="btn-group"
-          role="group"
-          aria-label="Button group with nested dropdown"
-        >
-          <div class="btn-group" role="group">
+  const devices = visibleDevices.map((dev) => {
+    const classes = ["table"];
+    console.log('classes', classes)
+    if (dev.check[0]) {
+      console.log("dev.check[0].nextCheck", dev.check[0].nextCheck);
+      const nextCheck = new Date(dev.check[0].nextCheck).getTime();
+      const dateNow = new Date().getTime();
+      console.log("dateNow", dateNow);
+      console.log("nextCheck", nextCheck);
+      if (dateNow > nextCheck - 864000000) {
+        classes.push("red");
+        console.log("пора проверять");
+      } else {
+        console.log("еще не пора праверять");
+      }
+    }
+
+    if (dev.period) {
+    }
+    return (
+      <tr key={dev._id}>
+        <td className={classes.join(' ')}>{dev.name}</td>
+        <td>{dev.type}</td>
+        <td>{dev.number}</td>
+        <td>{dev.period}</td>
+        <td>
+          {dev.check[0] ? (
+            <Moment format="DD.MM.YYYY">{dev.check[0].lastCheck}</Moment>
+          ) : (
+            "Нет данных"
+          )}
+        </td>
+        <td>
+          {dev.check[0] ? (
+            <Moment format="DD.MM.YYYY">{dev.check[0].nextCheck}</Moment>
+          ) : (
+            "Нет данных"
+          )}
+        </td>
+        <td>
+          <div
+            class="btn-group"
+            role="group"
+            aria-label="Button group with nested dropdown"
+          >
+            <div class="btn-group" role="group">
+              <button
+                id="btnGroupDrop1"
+                type="button"
+                class="btn btn-light dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fa fa-calendar-plus-o" aria-hidden="true">
+                  &nbsp;
+                </i>
+                Поверка
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <Link to={`/check/${dev._id}`} className="dropdown-item">
+                  <i class="fa fa-calendar-check-o" aria-hidden="true">
+                    &nbsp;
+                  </i>
+                  Поверено
+                </Link>
+                <Link to={`/history/${dev._id}`} className="dropdown-item">
+                  <i class="fa fa-history" aria-hidden="true">
+                    &nbsp;
+                  </i>
+                  История
+                </Link>
+              </div>
+            </div>
+            <Link to={`/update-device/${dev._id}`} className="btn btn-warning">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </Link>
             <button
-              id="btnGroupDrop1"
+              onClick={(e) => deleteDevice(dev._id)}
               type="button"
-              class="btn btn-light dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              class="btn btn-light"
             >
-              <i class="fa fa-calendar-plus-o" aria-hidden="true">
+              <i class="fa fa-trash" aria-hidden="true">
                 &nbsp;
               </i>
-              Поверка
             </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <Link to={`/check/${dev._id}`} className="dropdown-item">
-                <i class="fa fa-calendar-check-o" aria-hidden="true">
-                  &nbsp;
-                </i>
-                Поверено
-              </Link>
-              <Link to={`/history/${dev._id}`} className="dropdown-item">
-                <i class="fa fa-history" aria-hidden="true">
-                  &nbsp;
-                </i>
-                История
-              </Link>
-            </div>
           </div>
-          <Link to={`/update-device/${dev._id}`} className="btn btn-warning">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </Link>
-          <button
-            onClick={(e) => deleteDevice(dev._id)}
-            type="button"
-            class="btn btn-light"
-          >
-            <i class="fa fa-trash" aria-hidden="true">
-              &nbsp;
-            </i>
-          </button>
-        </div>
-      </td>
-    </tr>
-  ));
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <>
       <h2 className="my-2">База данных СИ</h2>
       <input type="text" value={title} onChange={handleTitle} />
+      
       <table className="table table-bordered">
         <thead>
           <tr>

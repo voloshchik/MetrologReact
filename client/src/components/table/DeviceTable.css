@@ -1,0 +1,13 @@
+.red {
+  background-color: red;
+}
+
+.table {
+}
+
+.table.red {
+  background-color: red;
+}
+.table.green {
+  background-color: green;
+}
