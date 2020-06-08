@@ -1,26 +1,26 @@
-import React, { Fragment, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { addNewDevice } from "../../actions/device";
+import React, {Fragment, useState} from 'react'
+import {Link, withRouter} from 'react-router-dom'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {addNewDevice} from '../../actions/device'
 
-const AddDevice = ({ addNewDevice, history }) => {
+const AddDevice = ({addNewDevice, history}) => {
   const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    number: "",
-    period: "",
-  });
+    name: '',
+    type: '',
+    number: '',
+    period: '',
+  })
 
-  const { name, type, number, period } = formData;
-console.log('formData', formData)
+  const {name, type, number, period} = formData
+
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({...formData, [e.target.name]: e.target.value})
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    addNewDevice(formData, history);
-  };
+    e.preventDefault()
+    addNewDevice(formData, history)
+  }
 
   return (
     <Fragment>
@@ -77,11 +77,11 @@ console.log('formData', formData)
         </Link>
       </form>
     </Fragment>
-  );
-};
+  )
+}
 
 addNewDevice.PropTypes = {
   addNewDevice: PropTypes.func.isRequired,
-};
+}
 
-export default connect(null, { addNewDevice })(withRouter(AddDevice));
+export default connect(null, {addNewDevice})(withRouter(AddDevice))
