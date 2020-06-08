@@ -1,68 +1,71 @@
 // npm i lodash
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Moment from "react-moment";
-import PropTypes from "prop-types";
-import { deleteDevice } from "../../actions/device";
-import { connect } from "react-redux";
-import _ from "lodash";
-import PutCalibration from "../device-forms/PutCalibration";
-import "./DeviceTable.css";
-const DeviceTable = ({ device, deleteDevice }) => {
-  const [title, setTitle] = useState("");
-  const [sort, setSort] = useState("asc");
-  const [sortField, setsortField] = useState("name");
+import React, {useState, useEffect} from 'react'
+import {Link} from 'react-router-dom'
+import Moment from 'react-moment'
+import PropTypes from 'prop-types'
+import {deleteDevice} from '../../actions/device'
+import {connect} from 'react-redux'
+import _ from 'lodash'
+import PutCalibration from '../device-forms/PutCalibration'
+import './DeviceTable.css'
+import Search from '../shared/Search'
+import {colors} from '@material-ui/core'
+const DeviceTable = ({device, deleteDevice}) => {
+  const [title, setTitle] = useState('')
+  const [sort, setSort] = useState('asc')
+  const [sortField, setsortField] = useState('name')
+  console.log('device :>> ', device)
   useEffect(() => {
-    setData(device);
-  }, [device]);
-  const [data, setData] = useState(device);
+    setData(device)
+  }, [device])
+  const [data, setData] = useState(device)
 
   const search = (items, term) => {
     if (term.trim().length === 0) {
-      return items;
+      return items
     }
-    return items.filter((item) => item.name.indexOf(term) > -1);
-  };
+    return items.filter((item) => item.name.indexOf(term) > -1)
+  }
 
-  const visibleDevices = search(data, title);
+  const visibleDevices = search(data, title)
 
   const onSort = (sortField) => {
-    const clonedData = data.concat();
-    const sortType = sort === "asc" ? "desc" : "asc";
+    const clonedData = data.concat()
+    const sortType = sort === 'asc' ? 'desc' : 'asc'
 
-    const orderedData = _.orderBy(clonedData, sortField, sortType);
+    const orderedData = _.orderBy(clonedData, sortField, sortType)
 
-    setData(orderedData);
-    setSort(sortType);
-    setsortField(sortField);
-  };
+    setData(orderedData)
+    setSort(sortType)
+    setsortField(sortField)
+  }
 
   // visibleDevices.sort((a, b) => (a.name - b.name ? 1 : -1));
   // console.log("visibleDevices", visibleDevices);
   const handleTitle = (e) => {
-    setTitle(e.target.value);
-  };
+    setTitle(e.target.value)
+  }
 
   const devices = visibleDevices.map((dev) => {
-    const classes = ["table"];
-    console.log("classes", classes);
-    if (dev.check[0]) {
-      const nextCheck = new Date(dev.check[0].nextCheck).getTime();
-      const dateNow = new Date().getTime();
+    const classes = ['table']
 
-      const period = nextCheck - dateNow;
+    if (dev.check[0]) {
+      const nextCheck = new Date(dev.check[0].nextCheck).getTime()
+      const dateNow = new Date().getTime()
+
+      const period = nextCheck - dateNow
 
       if (period <= 864000000 && period > 1) {
-        classes.push("yellow");
+        classes.push('yellow')
       }
       if (period < 1) {
-        classes.push("red");
+        classes.push('red')
       }
     }
 
     return (
       <tr key={dev._id}>
-        <td className={classes.join(" ")}>{dev.name}</td>
+        <td className={classes.join(' ')}>{dev.name}</td>
         <td>{dev.type}</td>
         <td>{dev.number}</td>
         <td>{dev.period}</td>
@@ -70,14 +73,14 @@ const DeviceTable = ({ device, deleteDevice }) => {
           {dev.check[0] ? (
             <Moment format="DD.MM.YYYY">{dev.check[0].lastCheck}</Moment>
           ) : (
-            "Нет данных"
+            'Нет данных'
           )}
         </td>
         <td>
           {dev.check[0] ? (
             <Moment format="DD.MM.YYYY">{dev.check[0].nextCheck}</Moment>
           ) : (
-            "Нет данных"
+            'Нет данных'
           )}
         </td>
         <td>
@@ -130,27 +133,28 @@ const DeviceTable = ({ device, deleteDevice }) => {
           </div>
         </td>
       </tr>
-    );
-  });
-
+    )
+  })
+  console.log('title', title)
   return (
     <>
       <h2 className="my-2">База данных СИ</h2>
-      <input type="text" value={title} onChange={handleTitle} />
+      {/* <input type="text" value={title} onChange={handleTitle} /> */}
 
+      <Search value={title} onChange={handleTitle} />
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th onClick={onSort.bind(null, "name")} scope="col">
+            <th onClick={onSort.bind(null, 'name')} scope="col">
               Наименование
             </th>
-            <th onClick={onSort.bind(null, "type")} scope="col">
+            <th onClick={onSort.bind(null, 'type')} scope="col">
               тип
             </th>
-            <th onClick={onSort.bind(null, "number")} scope="col">
+            <th onClick={onSort.bind(null, 'number')} scope="col">
               номер
             </th>
-            <th onClick={onSort.bind(null, "period")} scope="col">
+            <th onClick={onSort.bind(null, 'period')} scope="col">
               Период поверки
             </th>
             <th scope="col">Предыдущая поверка</th>
@@ -161,12 +165,12 @@ const DeviceTable = ({ device, deleteDevice }) => {
         <tbody>{devices}</tbody>
       </table>
     </>
-  );
-};
+  )
+}
 
 DeviceTable.propTypes = {
   device: PropTypes.array.isRequired,
   deleteDevice: PropTypes.func.isRequired,
-};
+}
 
-export default connect(null, { deleteDevice })(DeviceTable);
+export default connect(null, {deleteDevice})(DeviceTable)
