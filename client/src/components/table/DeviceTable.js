@@ -6,15 +6,15 @@ import PropTypes from 'prop-types'
 import {deleteDevice} from '../../actions/device'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import PutCalibration from '../device-forms/PutCalibration'
+
 import './DeviceTable.css'
 import Search from '../shared/Search'
-import {colors} from '@material-ui/core'
+
 const DeviceTable = ({device, deleteDevice}) => {
   const [title, setTitle] = useState('')
   const [sort, setSort] = useState('asc')
   const [sortField, setsortField] = useState('name')
-  console.log('device :>> ', device)
+
   useEffect(() => {
     setData(device)
   }, [device])
