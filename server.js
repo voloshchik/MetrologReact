@@ -5,6 +5,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const pdf = require('html-pdf')
 const cors = require('cors')
+let ejs = require('ejs')
 
 // Connect Database
 connectDB()

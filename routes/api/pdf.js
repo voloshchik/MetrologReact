@@ -4,19 +4,51 @@ const pdfTemplate = require('../../documentTest')
 const path = require('path')
 const router = Router()
 const fs = require('fs')
+let ejs = require('ejs')
+let students = [
+  {name: 'Joy', email: 'joy@example.com', city: 'New York', country: 'USA'},
+  {
+    name: 'John',
+    email: 'John@example.com',
+    city: 'San Francisco',
+    country: 'USA',
+  },
+]
 router.post('/create-pdf', (req, res) => {
-  const html = fs.readFileSync(path.join(__dirname, 'test.html'), 'utf8')
-  pdf.create(html, {}).toFile('result.pdf', (err) => {
-    if (err) {
-      res.send(Promise.reject())
-    }
+  // const html =
+  // fs.readFileSync(path.join(__dirname, 'test.html'), 'utf8')
 
-    res.send(Promise.resolve())
-  })
+  ejs.renderFile(
+    path.join(__dirname, 'test.ejs'),
+    {students: students},
+    (err, data) => {
+      if (err) {
+        res.send(err)
+      } else {
+        let options = {
+          height: '11.25in',
+          width: '8.5in',
+          header: {
+            height: '20mm',
+          },
+          footer: {
+            height: '20mm',
+          },
+        }
+        pdf.create(data, options).toFile('report.pdf', function (err, data) {
+          if (err) {
+            res.send(err)
+          } else {
+            res.send('File created successfully')
+          }
+        })
+      }
+    }
+  )
 })
 
 router.get('/fetch-pdf', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', '..', 'result.pdf'))
+  res.sendFile(path.join(__dirname, '..', '..', 'report.pdf'))
 })
 
 module.exports = router
