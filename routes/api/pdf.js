@@ -3,14 +3,14 @@ const pdf = require('html-pdf')
 const pdfTemplate = require('../../documentTest')
 const path = require('path')
 const router = Router()
-
+const fs = require('fs')
 router.post('/create-pdf', (req, res) => {
-  pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
-    // console.log('1111111111111111111111111111111111111111111')
+  const html = fs.readFileSync(path.join(__dirname, 'test.html'), 'utf8')
+  pdf.create(html, {}).toFile('result.pdf', (err) => {
     if (err) {
       res.send(Promise.reject())
     }
-    console.log('path', path.join(__dirname, '..', '..', 'result.pdf'))
+
     res.send(Promise.resolve())
   })
 })
@@ -20,4 +20,4 @@ router.get('/fetch-pdf', (req, res) => {
 })
 
 module.exports = router
-console.log('path', path.join(__dirname, '..', '..', 'result.pdf'))
+// console.log('path', path.join(__dirname, '..', '..', 'result.pdf'))
