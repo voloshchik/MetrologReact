@@ -11,7 +11,7 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
     price1: '',
     price2: '',
   })
-
+  const [lastCheckData, setLastCheckData] = useState('')
   useEffect(() => {
     getCurrentDevices()
   }, [getCurrentDevices])
@@ -19,8 +19,10 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   if (!devices.length) {
     return null
   }
-  console.log('formDataName', formData)
-  console.log('devices', devices)
+  const dataPdf = {
+    formData,
+    lastCheckData,
+  }
 
   const searchDivice = (name = 'test', type = 'panel') => {
     return devices.filter((item) => item.name === name && item.type === type)
@@ -30,20 +32,21 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
     const selectDevice = searchDivice()
     console.log('selectDevice', selectDevice[0].check)
     const lastCheck = selectDevice[0].check.map((d) => {
-      return d.lastCheck
+      return `<p> ${d.lastCheck}</p>`
     })
-    const nextCheck = selectDevice[0].check.map((d) => {
-      return d.nextCheck
-    })
-    console.log('lastCheck', lastCheck)
-    console.log('nextCheck', nextCheck)
-  }
 
+    const nextCheck = selectDevice[0].check.map((d) => {
+      return `<p>${d.nextCheck}</p>`
+    })
+    console.log('lastCheck', lastCheck.join(''))
+    setLastCheckData(lastCheck.join(''))
+  }
+  console.log('lastCheckData', lastCheckData)
   const onChange = (e) =>
     setFormData({...formData, [e.target.name]: e.target.value})
 
   const createAndDownloadPdf = () => {
-    Axios.post('/create-pdf', formData)
+    Axios.post('/create-pdf', dataPdf)
       .then(() => Axios.get('fetch-pdf', {responseType: 'blob'}))
       .then((res) => {
         const pdfBlob = new Blob([res.data], {type: 'application/pdf'})

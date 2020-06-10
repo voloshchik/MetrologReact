@@ -1,4 +1,5 @@
-module.exports = ({lastCheck, nextCheck, price2, receiptId}) => {
+module.exports = ({lastCheckData}) => {
+  console.log('lastCheckData', lastCheckData)
   const today = new Date()
   return `
     <!doctype html>
@@ -13,6 +14,7 @@ module.exports = ({lastCheck, nextCheck, price2, receiptId}) => {
        <body>
           <div class="">
              <h1>Проверка проводилась</h1>
+             ${lastCheckData}
           </div>
        </body>
     </html>
