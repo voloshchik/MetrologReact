@@ -35,22 +35,20 @@ router.post('/create-pdf', (req, res) => {
             height: '20mm',
           },
         }
-        pdf
-          .create(data, options)
-          .toFile('pdf/result.pdf', function (err, data) {
-            if (err) {
-              res.send(err)
-            } else {
-              res.send('File created successfully')
-            }
-          })
+        pdf.create(data, options).toFile('report.pdf', function (err, data) {
+          if (err) {
+            res.send(err)
+          } else {
+            res.send('File created successfully')
+          }
+        })
       }
     }
   )
 })
 
 router.get('/fetch-pdf', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', '..', 'pdf', 'report.pdf'))
+  res.sendFile(path.join(__dirname, '..', '..', 'report.pdf'))
 })
 
 module.exports = router
