@@ -1,18 +1,27 @@
-// const onSortPeriod = (sortField) => {
-  //   // debugger
-  //   const clonedData = data.concat();
-  //   const sortType = sort === "asc" ? "desc" : "asc";
-  //   if (sortType === "asc") {
-  //     console.log("clonedData", sortField);
-  //     clonedData.sort((a, b) => (a[sortField] - b[sortField] ));
-  //     setData(clonedData);
-  //     setSort(sortType);
-  //     setsortField(sortField);
-  //   }
-  //   if (sortType === "desc") {
-  //     clonedData.sort((a, b) => (b[sortField] - a[sortField] ));
-  //     setData(clonedData);
-  //     setSort(sortType);
-  //     setsortField(sortField);
-  //   }
-  // };
+ejs.renderFile(
+  path.join(__dirname, './views/', 'report-      template.ejs'),
+  {students: students},
+  (err, data) => {
+    if (err) {
+      res.send(err)
+    } else {
+      let options = {
+        height: '11.25in',
+        width: '8.5in',
+        header: {
+          height: '20mm',
+        },
+        footer: {
+          height: '20mm',
+        },
+      }
+      pdf.create(data, options).toFile('report.pdf', function (err, data) {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send('File created successfully')
+        }
+      })
+    }
+  }
+)

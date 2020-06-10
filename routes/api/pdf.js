@@ -6,6 +6,7 @@ const router = Router()
 
 router.post('/create-pdf', (req, res) => {
   pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+    // console.log('1111111111111111111111111111111111111111111')
     if (err) {
       res.send(Promise.reject())
     }
