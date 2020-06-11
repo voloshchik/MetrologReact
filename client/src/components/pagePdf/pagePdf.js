@@ -8,10 +8,9 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   const [formData, setFormData] = useState({
     name: '',
     type: '',
-    price1: '',
-    price2: '',
   })
-  const [lastCheckData, setLastCheckData] = useState('')
+  const [data, setData] = useState(null)
+  console.log('data', data)
   useEffect(() => {
     getCurrentDevices()
   }, [getCurrentDevices])
@@ -21,7 +20,6 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   }
   const dataPdf = {
     formData,
-    lastCheckData,
   }
 
   const searchDivice = (name = 'test', type = 'panel') => {
@@ -29,19 +27,10 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   }
 
   const selectDiviceHandler = () => {
-    const selectDevice = searchDivice()
-    console.log('selectDevice', selectDevice[0].check)
-    const lastCheck = selectDevice[0].check.map((d) => {
-      return `<p> ${d.lastCheck}</p>`
-    })
-
-    const nextCheck = selectDevice[0].check.map((d) => {
-      return `<p>${d.nextCheck}</p>`
-    })
-    console.log('lastCheck', lastCheck.join(''))
-    setLastCheckData(lastCheck.join(''))
+    const divicesSelect = searchDivice()
+    setData(divicesSelect)
   }
-  console.log('lastCheckData', lastCheckData)
+
   const onChange = (e) =>
     setFormData({...formData, [e.target.name]: e.target.value})
 
@@ -54,6 +43,11 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
         saveAs(pdfBlob, 'newPdf.pdf')
       })
   }
+  // if (data) {
+  //   const table = data.map((device, index) => {
+  //     return <li>device.name</li>
+  //   })
+  // }
 
   return (
     <div>
@@ -70,21 +64,27 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
           name="type"
           onChange={(e) => onChange(e)}
         />
-        <input
-          type="number"
-          placeholder="Price 1"
-          name="price1"
-          onChange={(e) => onChange(e)}
-        />
-        <input
-          type="number"
-          placeholder="Price 2"
-          name="price2"
-          onChange={(e) => onChange(e)}
-        />
-        <button onClick={selectDiviceHandler}>Просмотр прибора</button>
-        <button onClick={createAndDownloadPdf}>Download PDF</button>
+
+        <button className="btn btn-light" onClick={selectDiviceHandler}>
+          Информация о приборе
+        </button>
+        <button className="btn btn-light" onClick={createAndDownloadPdf}>
+          Download PDF
+        </button>
       </div>
+      <hr />
+      {data && (
+        <ul>
+          {data.map((divice, index) => {
+            return (
+              <li key={index}>
+                <p> {divice.name}</p>
+                <p> {divice.type}</p>
+              </li>
+            )
+          })}
+        </ul>
+      )}
     </div>
   )
 }
