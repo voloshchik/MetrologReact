@@ -74,16 +74,43 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
       </div>
       <hr />
       {data && (
-        <ul>
+        <table>
+          <tbody>
+            <tr>
+              <th>Название прибора</th>
+              <th>Тип прибора </th>
+              <th>Период проверки</th>
+              <th>проверка проводилась</th>
+              <th>Запланираваная проверка</th>
+            </tr>
+          </tbody>
           {data.map((divice, index) => {
+            console.log(
+              divice.check.map((check) => {
+                return check.lastCheck
+              })
+            )
             return (
-              <li key={index}>
-                <p> {divice.name}</p>
-                <p> {divice.type}</p>
-              </li>
+              <tbody key={index}>
+                <tr>
+                  <td>{divice.name}</td>
+                  <td>{divice.type}</td>
+                  <td>{divice.period}</td>
+                  <td>
+                    {divice.check.map((check, index) => {
+                      return <p key={index}>{check.lastCheck}</p>
+                    })}
+                  </td>
+                  <td>
+                    {divice.check.map((check, index) => {
+                      return <p key={index}>{check.nextCheck}</p>
+                    })}
+                  </td>
+                </tr>
+              </tbody>
             )
           })}
-        </ul>
+        </table>
       )}
     </div>
   )
