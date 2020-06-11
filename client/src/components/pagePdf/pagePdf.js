@@ -18,9 +18,9 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   if (!devices.length) {
     return null
   }
-  const dataPdf = {
-    formData,
-  }
+  // const dataPdf = {
+  //   data,
+  // }
 
   const searchDivice = (name = 'test', type = 'panel') => {
     return devices.filter((item) => item.name === name && item.type === type)
@@ -35,7 +35,7 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
     setFormData({...formData, [e.target.name]: e.target.value})
 
   const createAndDownloadPdf = () => {
-    Axios.post('/create-pdf', dataPdf)
+    Axios.post('/create-pdf', data)
       .then(() => Axios.get('fetch-pdf', {responseType: 'blob'}))
       .then((res) => {
         const pdfBlob = new Blob([res.data], {type: 'application/pdf'})

@@ -8,5 +8,10 @@
   <body>
     <h1>Результат проверки</h1>
     <h2>ejs</h2>
+    <% if (data.length > 0) { %> <% data.forEach(divice => {%>
+    <tr>
+      <td><%= divice.name %></td>
+    </tr>
+    <% });%> <% }%>
   </body>
 </html>

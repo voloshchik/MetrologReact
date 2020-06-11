@@ -15,12 +15,13 @@ let students = [
   },
 ]
 router.post('/create-pdf', (req, res) => {
+  console.log('req.body', req.body)
   // const html =
   // fs.readFileSync(path.join(__dirname, 'test.html'), 'utf8')
 
   ejs.renderFile(
     path.join(__dirname, 'test.ejs'),
-    {students: students},
+    {data: req.body},
     (err, data) => {
       if (err) {
         res.send(err)
