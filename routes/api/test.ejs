@@ -23,12 +23,20 @@
         <td><%= divice.name %></td>
         <td><%= divice.type %></td>
         <td><%= divice.period %></td>
+        <td>
+          <% divice.check.forEach(function(check){ %>
+          <p><%= check.lastCheck %></p>
+          <% }); %>
+        </td>
+        <td>
+          <% divice.check.forEach(function(check){ %>
+          <p><%= check.nextCheck %></p>
+          <% }); %>
+        </td>
 
-        <% divice.check.forEach(function(check){ %>
-        <td><p><%= check.lastCheck %></p></td>
-        <% }); %> <% divice.check.forEach(function(check){ %>
+        <!-- <% divice.check.forEach(function(check){ %>
         <td><p><%= check.nextCheck %></p></td>
-        <% }); %>
+        <% }); %> -->
       </tbody>
       <% });%> <% }%>
     </table>
