@@ -6,15 +6,52 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Результат проверки</h1>
+    <h1>Результат проверки!25555</h1>
 
-    <% if (data.length > 0) { %> <% data.forEach(divice => {%>
-    <tr>
-      <td><%= divice.name %></td>
-      <% divice.check.forEach(function(check){ %>
-      <p><%= check.lastCheck %></p>
-      <% }); %>
-    </tr>
-    <% });%> <% }%>
+    <table>
+      <tbody>
+        <tr>
+          <th>Название прибора</th>
+          <th>Тип прибора</th>
+          <th>Период проверки</th>
+          <th>проверка проводилась</th>
+          <th>Запланираваная проверка</th>
+        </tr>
+      </tbody>
+      <% if (data.length > 0) { %> <% data.forEach(divice => {%>
+      <tbody>
+        <td><%= divice.name %></td>
+        <td><%= divice.type %></td>
+        <td><%= divice.period %></td>
+
+        <% divice.check.forEach(function(check){ %>
+        <td><p><%= check.lastCheck %></p></td>
+        <% }); %> <% divice.check.forEach(function(check){ %>
+        <td><p><%= check.nextCheck %></p></td>
+        <% }); %>
+      </tbody>
+      <% });%> <% }%>
+    </table>
   </body>
 </html>
+
+<!-- {data.map((divice, index) => { console.log( divice.check.map((check) => { return
+check.lastCheck }) ) return (
+<tbody key="{index}">
+  <tr>
+    <td>{divice.name}</td>
+    <td>{divice.type}</td>
+    <td>{divice.period}</td>
+    <td>
+      {divice.check.map((check, index) => { return
+      <p key="{index}">{check.lastCheck}</p>
+      })}
+    </td>
+    <td>
+      {divice.check.map((check, index) => { return
+      <p key="{index}">{check.nextCheck}</p>
+      })}
+    </td>
+  </tr>
+</tbody>
+) })} -->
