@@ -85,33 +85,33 @@ const DeviceTable = ({device, deleteDevice}) => {
         </td>
         <td>
           <div
-            class="btn-group"
+            className="btn-group"
             role="group"
             aria-label="Button group with nested dropdown"
           >
-            <div class="btn-group" role="group">
+            <div className="btn-group" role="group">
               <button
                 id="btnGroupDrop1"
                 type="button"
-                class="btn btn-light dropdown-toggle"
+                className="btn btn-light dropdown-toggle"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i class="fa fa-calendar-plus-o" aria-hidden="true">
+                <i className="fa fa-calendar-plus-o" aria-hidden="true">
                   &nbsp;
                 </i>
                 Поверка
               </button>
-              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <Link to={`/check/${dev._id}`} className="dropdown-item">
-                  <i class="fa fa-calendar-check-o" aria-hidden="true">
+                  <i className="fa fa-calendar-check-o" aria-hidden="true">
                     &nbsp;
                   </i>
                   Поверено
                 </Link>
                 <Link to={`/history/${dev._id}`} className="dropdown-item">
-                  <i class="fa fa-history" aria-hidden="true">
+                  <i className="fa fa-history" aria-hidden="true">
                     &nbsp;
                   </i>
                   История
@@ -119,14 +119,14 @@ const DeviceTable = ({device, deleteDevice}) => {
               </div>
             </div>
             <Link to={`/update-device/${dev._id}`} className="btn btn-warning">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
+              <i className="fa fa-pencil" aria-hidden="true"></i>
             </Link>
             <button
               onClick={(e) => deleteDevice(dev._id)}
               type="button"
-              class="btn btn-light"
+              className="btn btn-light"
             >
-              <i class="fa fa-trash" aria-hidden="true">
+              <i className="fa fa-trash" aria-hidden="true">
                 &nbsp;
               </i>
             </button>
