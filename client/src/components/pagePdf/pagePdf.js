@@ -34,7 +34,7 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
       var date = new Date(str)
       return date.toLocaleString('ru', options)
     }
-    const divicesSelect = searchDivice()
+    const divicesSelect = searchDivice(formData.name, formData.type)
     divicesSelect.forEach((divice) => {
       divice.check.forEach((check) => {
         check.lastCheck = getDate(check.lastCheck)
