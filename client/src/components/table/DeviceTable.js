@@ -55,7 +55,7 @@ const DeviceTable = ({device, deleteDevice}) => {
 
       const period = nextCheck - dateNow
 
-      if (period <= 864000000 && period > 1) {
+      if (period <= 2592000000 && period > 1) {
         classes.push('yellow')
       }
       if (period < 1) {

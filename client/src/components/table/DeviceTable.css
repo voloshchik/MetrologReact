@@ -6,13 +6,11 @@
 }
 
 .table.red {
-  background-color: red;
+  background-color: rgb(238, 87, 87);
 }
 .table.green {
   background-color: green;
 }
 .table.yellow {
-  background-color: yellow;
+  background-color: rgb(238, 238, 98);
 }
-
-
