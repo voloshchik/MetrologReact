@@ -89,7 +89,7 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
               <th>Название прибора</th>
               <th>Тип прибора </th>
               <th>Период проверки</th>
-              <th>проверка проводилась</th>
+              <th>Дата проверки</th>
               <th>Запланираваная проверка</th>
             </tr>
           </tbody>

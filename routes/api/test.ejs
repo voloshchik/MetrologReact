@@ -4,9 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      table,
+      td,
+      th {
+        border: 1px solid rgb(19, 14, 14);
+      }
+
+      table {
+        border-collapse: collapse;
+        max-width: 100%;
+      }
+
+      th {
+        height: 50px;
+      }
+
+      th,
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <h1>Результат проверки!2777</h1>
+    <h2>
+      Результат проверки прибора <% if (data.length > 0) { %> <%
+      data.forEach(divice => {%>
+      <h1><%= divice.name %></h1>
+      <% });%> <% }%>
+    </h2>
 
     <table>
       <tbody>
@@ -14,8 +41,8 @@
           <th>Название прибора</th>
           <th>Тип прибора</th>
           <th>Период проверки</th>
-          <th>проверка проводилась</th>
-          <th>Запланираваная проверка</th>
+          <th>Дата проверки</th>
+          <th>Запланированая проверка</th>
         </tr>
       </tbody>
       <% if (data.length > 0) { %> <% data.forEach(divice => {%>
@@ -42,24 +69,3 @@
     </table>
   </body>
 </html>
-
-<!-- {data.map((divice, index) => { console.log( divice.check.map((check) => { return
-check.lastCheck }) ) return (
-<tbody key="{index}">
-  <tr>
-    <td>{divice.name}</td>
-    <td>{divice.type}</td>
-    <td>{divice.period}</td>
-    <td>
-      {divice.check.map((check, index) => { return
-      <p key="{index}">{check.lastCheck}</p>
-      })}
-    </td>
-    <td>
-      {divice.check.map((check, index) => { return
-      <p key="{index}">{check.nextCheck}</p>
-      })}
-    </td>
-  </tr>
-</tbody>
-) })} -->
