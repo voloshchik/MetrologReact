@@ -18,16 +18,30 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
   if (!devices.length) {
     return null
   }
-  // const dataPdf = {
-  //   data,
-  // }
 
   const searchDivice = (name = 'test', type = 'panel') => {
     return devices.filter((item) => item.name === name && item.type === type)
   }
 
   const selectDiviceHandler = () => {
+    var options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    }
+
+    function getDate(str) {
+      var date = new Date(str)
+      return date.toLocaleString('ru', options)
+    }
     const divicesSelect = searchDivice()
+    divicesSelect.forEach((divice) => {
+      divice.check.forEach((check) => {
+        check.lastCheck = getDate(check.lastCheck)
+        check.nextCheck = getDate(check.nextCheck)
+      })
+    })
+
     setData(divicesSelect)
   }
 
@@ -43,11 +57,6 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
         saveAs(pdfBlob, 'newPdf.pdf')
       })
   }
-  // if (data) {
-  //   const table = data.map((device, index) => {
-  //     return <li>device.name</li>
-  //   })
-  // }
 
   return (
     <div>
@@ -108,12 +117,12 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
                   <td>{divice.period}</td>
                   <td>
                     {divice.check.map((check, index) => {
-                      return <p key={index}>{getDate(check.lastCheck)}</p>
+                      return <p key={index}>{check.lastCheck}</p>
                     })}
                   </td>
                   <td>
                     {divice.check.map((check, index) => {
-                      return <p key={index}>{getDate(check.nextCheck)}</p>
+                      return <p key={index}>{check.nextCheck}</p>
                     })}
                   </td>
                 </tr>
