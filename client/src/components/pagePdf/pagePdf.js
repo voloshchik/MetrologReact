@@ -85,6 +85,16 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
             </tr>
           </tbody>
           {data.map((divice, index) => {
+            let options = {
+              day: 'numeric',
+              month: 'numeric',
+              year: 'numeric',
+            }
+
+            function getDate(str) {
+              var date = new Date(str)
+              return date.toLocaleString('ru', options)
+            }
             console.log(
               divice.check.map((check) => {
                 return check.lastCheck
@@ -98,12 +108,12 @@ const PagePdf = ({devices: {devices}, getCurrentDevices}) => {
                   <td>{divice.period}</td>
                   <td>
                     {divice.check.map((check, index) => {
-                      return <p key={index}>{check.lastCheck}</p>
+                      return <p key={index}>{getDate(check.lastCheck)}</p>
                     })}
                   </td>
                   <td>
                     {divice.check.map((check, index) => {
-                      return <p key={index}>{check.nextCheck}</p>
+                      return <p key={index}>{getDate(check.nextCheck)}</p>
                     })}
                   </td>
                 </tr>
