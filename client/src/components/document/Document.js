@@ -7,16 +7,44 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     getCurrentDevices()
   }, [getCurrentDevices])
 
+  var date = new Date(Date.now()).getFullYear()
+
+  const [data, setData] = useState({
+    year: date,
+  })
+
+  const {year} = data
+  console.log('year', year)
+  const onChange = (e) => {
+    setData({...data, [e.target.name]: e.target.value})
+  }
   if (!devices.length) {
     return null
   }
+
+  // const filterDivices=(divices)=>{
+
+  // }
   console.log('devices', devices)
-  const devicesprepared = devices.map((divice) => {
+  devices.forEach((d) => {
+    const check = d.check
+    console.log('check', check)
+    const filterCheck = check.filter((check) => {
+      return (
+        new Date(check.nextCheck) > new Date(year, 0, 0) &&
+        new Date(check.nextCheck) < new Date(year, 11, 31)
+      )
+    })
+    d.check = filterCheck
+    console.log('filterCheck', filterCheck)
+  })
+  console.log('devices', devices)
+  const devicesPrepared = devices.map((divice) => {
     const devicesUpdata = {...divice, counter: 1, checkMonths: []}
 
     return devicesUpdata
   })
-  devicesprepared.forEach((divice) => {
+  devicesPrepared.forEach((divice) => {
     var months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     const nextData = divice.check.map((d) => {
       return d.nextCheck
@@ -25,27 +53,21 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     for (var i = 0; i <= 11; i++) {
       nextData.forEach((date) => {
         if (
-          new Date(date) > new Date(2020, i, 0) &&
-          new Date(date) < new Date(2020, i, 31)
+          new Date(date) > new Date(year, i, 0) &&
+          new Date(date) < new Date(year, i, 31)
         )
           months[i]++
       })
     }
     divice.checkMonths = months
-    console.log('nextData', nextData)
-    console.log('months', months)
   })
 
-  console.log('devicesprepared', devicesprepared)
   const test = () => {
-    console.log('test')
     let tmpArray = []
     let objArr = []
     console.log('objArr', objArr)
-    //  const dates = objArr.filter( date => date > new Date(2020,0,01) && date < new Date(2020,11,31) );
-    // console.log('dates', dates)
+
     function itemCheck(item, index) {
-      // console.log('index', index)
       if (tmpArray.indexOf(item.name) === -1) {
         tmpArray.push(item.name)
         objArr.push(item)
@@ -56,13 +78,9 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
       updatedevice.counter = updatedevice.counter + 1
       updatedevice.check = [...updatedevice.check, ...check]
     }
-
-    console.log(
-      'object',
-      devicesprepared.forEach((item, index) => {
-        itemCheck(item, index)
-      })
-    )
+    devicesPrepared.forEach((item, index) => {
+      itemCheck(item, index)
+    })
   }
 
   return (
@@ -71,6 +89,12 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
       <button onClick={test} className="btn btn-dark">
         test
       </button>
+      <hr />
+      <select name="year" value={year} onChange={(e) => onChange(e)}>
+        <option>{date}</option>
+        <option>{date - 1}</option>
+        <option>{date - 2}</option>
+      </select>
     </div>
   )
 }

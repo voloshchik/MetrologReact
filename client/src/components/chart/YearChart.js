@@ -8,7 +8,7 @@ const YearChart = ({year, getChartByYear, chart: {chart, loading}}) => {
   useEffect(() => {
     getChartByYear(year)
   }, [year])
-  console.log('chart', chart)
+
   const data = [
     ['Element', 'Количество поверок', {role: 'style'}],
     ['Январь', chart[0], '#007BFF'],
