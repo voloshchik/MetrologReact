@@ -12,7 +12,7 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
   }
   console.log('devices', devices)
   const devicesprepared = devices.map((divice) => {
-    const devicesUpdata = {...divice, counter: 0, checkMonths: []}
+    const devicesUpdata = {...divice, counter: 1, checkMonths: []}
 
     return devicesUpdata
   })
@@ -35,6 +35,7 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     console.log('nextData', nextData)
     console.log('months', months)
   })
+
   console.log('devicesprepared', devicesprepared)
   const test = () => {
     console.log('test')
@@ -52,12 +53,13 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
       }
       const check = item.check
       const updatedevice = objArr.find((obj) => obj.name === item.name)
+      updatedevice.counter = updatedevice.counter + 1
       updatedevice.check = [...updatedevice.check, ...check]
     }
 
     console.log(
       'object',
-      devices.forEach((item, index) => {
+      devicesprepared.forEach((item, index) => {
         itemCheck(item, index)
       })
     )
