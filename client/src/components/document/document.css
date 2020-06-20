@@ -18,3 +18,11 @@ td {
   padding: 5px;
   text-align: center;
 }
+
+.formDocument .btn {
+  margin-left: 20px;
+}
+
+.center table {
+  margin: 0 auto;
+}
