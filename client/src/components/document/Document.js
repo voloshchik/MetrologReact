@@ -12,11 +12,17 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
   })
   const [devicesData, setDivicesData] = useState(null)
   const {year} = data
-
+  const [devicesServer, setDevicesServer] = useState(null)
   useEffect(() => {
+    console.log('useefect!!!!')
     getCurrentDevices()
-  }, [getCurrentDevices, data])
+  }, [])
+  useEffect(() => {
+    setDevicesServer(devices)
+  }, [devices])
 
+  console.log('devicesServer', devicesServer)
+  console.log('devices', devices)
   const onChange = (e) => {
     setData({...data, [e.target.name]: e.target.value})
   }
@@ -60,7 +66,7 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     divice.checkMonths = months
   })
 
-  const test = () => {
+  function test() {
     let tmpArray = []
     let objArr = []
     const dataPDF = {
@@ -101,19 +107,21 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
 
   return (
     <div>
-      <button onClick={test} className="btn btn-dark">
-        test
-      </button>
-      <button className="btn btn-light" onClick={createAndDownloadPdf}>
-        Download PDF
-      </button>
-      <hr />
-      <select name="year" value={year} onChange={(e) => onChange(e)}>
-        <option>{date}</option>
-        <option>{date - 1}</option>
-        <option>{date - 2}</option>
-      </select>
-      <hr />
+      <div
+      // className="myForm"
+      >
+        <button onClick={test} className="btn btn-dark"></button>
+        <button className="btn btn-light" onClick={createAndDownloadPdf}>
+          Download PDF
+        </button>
+        <hr />
+        <select name="year" value={year} onChange={(e) => onChange(e)}>
+          <option>{date}</option>
+          <option>{date - 1}</option>
+          <option>{date - 2}</option>
+        </select>
+        <hr />
+      </div>
 
       {devicesData && (
         <div>

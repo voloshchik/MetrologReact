@@ -64,7 +64,7 @@ const App = () => {
               />
               <PrivateRoute exact path="/chart" component={Chart} />
               <PrivateRoute exact path="/document" component={Document} />
-              <PrivateRoute exact path="/pdf" component={PagePdf} />
+              {/* <PrivateRoute exact path="/pdf" component={PagePdf} /> */}
             </Switch>
           </section>
         </Fragment>
