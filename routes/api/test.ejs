@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      table,
-      td,
+      /* table,
+      td, */
       th {
         border: 1px solid rgb(19, 14, 14);
       }
@@ -17,52 +17,78 @@
       }
 
       th {
-        height: 50px;
+        height: 40px;
       }
 
       th,
       td {
-        padding: 5px;
+        padding: 1px;
         text-align: center;
       }
     </style>
   </head>
   <body>
-    <h2>
-      Результат проверки прибора <% if (data.length > 0) { %> <%
-      data.forEach(divice => {%>
-      <h1><%= divice.name %></h1>
-      <% });%> <% }%>
+    <h1 style="text-align: ' center';">ПЛАН ГРАФИК</h1>
+    <h2 style="text-align: ' center';">
+      Переодической проверки средств измерения на <%= year.year %> год.
     </h2>
 
     <table>
       <tbody>
         <tr>
-          <th>Название прибора</th>
-          <th>Тип прибора</th>
-          <th>Период проверки</th>
-          <th>Дата проверки</th>
-          <th>Запланированая проверка</th>
+          <th rowspan="2">№</th>
+          <th rowspan="2">Название прибора</th>
+          <th rowspan="2">Тип прибора</th>
+          <th rowspan="2">Год поверки</th>
+          <th rowspan="2">К-во сред.</th>
+          <th colspan="12">К-во поверок по месяцам</th>
+        </tr>
+        <tr>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+          <th>9</th>
+          <th>10</th>
+          <th>11</th>
+          <th>12</th>
         </tr>
       </tbody>
-      <% if (data.length > 0) { %> <% data.forEach(divice => {%>
+      <% if (data.length > 0) { %> <% data.forEach((divice,index) => {%>
       <tbody>
-        <td><%= divice.name %></td>
+        <td><%= index + 1 %></td>
+        <td><%=divice.name %></td>
         <td><%= divice.type %></td>
-        <td><%= divice.period %></td>
-        <td>
-          <% divice.check.forEach(function(check){ %>
-          <p><%= check.lastCheck %></p>
-          <% }); %>
-        </td>
-        <td>
-          <% divice.check.forEach(function(check){ %>
-          <p><%= check.nextCheck %></p>
-          <% }); %>
-        </td>
+        <td><%= year.year %></td>
+        <td><%=divice.counter %></td>
+        <td><%=divice.checkMonths[0] %></td>
+        <td><%=divice.checkMonths[1] %></td>
+        <td><%=divice.checkMonths[2] %></td>
+        <td><%=divice.checkMonths[3] %></td>
+        <td><%=divice.checkMonths[4] %></td>
+        <td><%=divice.checkMonths[5] %></td>
+        <td><%=divice.checkMonths[6] %></td>
+        <td><%=divice.checkMonths[7] %></td>
+        <td><%=divice.checkMonths[8] %></td>
+        <td><%=divice.checkMonths[9] %></td>
+        <td><%=divice.checkMonths[10] %></td>
+        <td><%=divice.checkMonths[11] %></td>
       </tbody>
       <% });%> <% }%>
     </table>
-    <h3>Проверку проводил Влад</h3>
+    <div
+      style="
+        display: ' flex';
+        justify-content: 'space-between';
+        margin-top: '20px';
+      "
+    >
+      <p>Инженер-инженер метролог</p>
+      <p>Владислав</p>
+    </div>
   </body>
 </html>

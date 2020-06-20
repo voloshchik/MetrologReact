@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getCurrentDevices} from '../../actions/device'
-import './document.css'
+import Axios from 'axios'
+import {saveAs} from 'file-saver'
+
 const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
   var date = new Date(Date.now()).getFullYear()
 
@@ -14,7 +16,7 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
   useEffect(() => {
     getCurrentDevices()
   }, [getCurrentDevices, data])
-  console.log('year', year)
+
   const onChange = (e) => {
     setData({...data, [e.target.name]: e.target.value})
   }
@@ -22,23 +24,23 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     return null
   }
 
-  // const filterDivices=(divices)=>{
-
-  // }
-  console.log('devices', devices)
   const filterDivicesYear = devices.map((d) => {
     const check = d.check
-    console.log('check', check)
+
     const filterCheck = check.filter((check) => {
       return (
         new Date(check.nextCheck) > new Date(year, 0, 0) &&
         new Date(check.nextCheck) < new Date(year, 11, 31)
       )
     })
-    // d.check = filterCheck
-    return {...d, check: filterCheck, counter: 1, checkMonths: []}
+
+    return {
+      ...d,
+      check: filterCheck,
+      counter: 1,
+      checkMonths: [],
+    }
   })
-  console.log('filterDivicesYear', filterDivicesYear)
 
   filterDivicesYear.forEach((divice) => {
     var months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -61,7 +63,11 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
   const test = () => {
     let tmpArray = []
     let objArr = []
-
+    const dataPDF = {
+      devicesData,
+      data,
+    }
+    console.log('object', dataPDF)
     console.log('objArr', objArr)
 
     function itemCheck(item, index) {
@@ -81,11 +87,25 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
     setDivicesData(objArr)
   }
 
+  const createAndDownloadPdf = () => {
+    const dataPDF = {devicesData, data}
+    console.log('dataPDF', dataPDF)
+    Axios.post('/create-pdf', dataPDF)
+      .then(() => Axios.get('fetch-pdf', {responseType: 'blob'}))
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], {type: 'application/pdf'})
+
+        saveAs(pdfBlob, 'newPdf.pdf')
+      })
+  }
+
   return (
     <div>
-      <p>Docuemnt Compone</p>
       <button onClick={test} className="btn btn-dark">
         test
+      </button>
+      <button className="btn btn-light" onClick={createAndDownloadPdf}>
+        Download PDF
       </button>
       <hr />
       <select name="year" value={year} onChange={(e) => onChange(e)}>
@@ -94,17 +114,22 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
         <option>{date - 2}</option>
       </select>
       <hr />
+
       {devicesData && (
-        <div className="wrap">
-          <table className="w">
+        <div>
+          <h1 style={{textAlign: ' center'}}>ПЛАН ГРАФИК</h1>
+          <h2 style={{textAlign: ' center'}}>
+            Переодической проверки средств измерения на {year} год.
+          </h2>
+          <table>
             <tbody>
               <tr>
-                <th rowSpan="2">№</th>
-                <th rowSpan="2">Название прибора</th>
-                <th rowSpan="2">Тип прибора </th>
-                <th rowSpan="2">Год поверки</th>
-                <th rowSpan="2">К-во сред.</th>
-                <th colSpan="12">К-во поверок по месяцам</th>
+                <th rowspan="2">№</th>
+                <th rowspan="2">Название прибора</th>
+                <th rowspan="2">Тип прибора </th>
+                <th rowspan="2">Год поверки</th>
+                <th rowspan="2">К-во сред.</th>
+                <th colspan="12">К-во поверок по месяцам</th>
               </tr>
               <tr>
                 <th>1</th>
@@ -148,6 +173,16 @@ const MyDoc = ({devices: {devices}, getCurrentDevices}) => {
               )
             })}
           </table>
+          <div
+            style={{
+              display: ' flex',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+            }}
+          >
+            <p>Инженер-инженер метролог</p>
+            <p>Владислав</p>
+          </div>
         </div>
       )}
     </div>

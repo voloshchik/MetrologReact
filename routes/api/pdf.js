@@ -5,23 +5,16 @@ const path = require('path')
 const router = Router()
 const fs = require('fs')
 let ejs = require('ejs')
-let students = [
-  {name: 'Joy', email: 'joy@example.com', city: 'New York', country: 'USA'},
-  {
-    name: 'John',
-    email: 'John@example.com',
-    city: 'San Francisco',
-    country: 'USA',
-  },
-]
+
 router.post('/create-pdf', (req, res) => {
   console.log('req.body', req.body)
+
   // const html =
   // fs.readFileSync(path.join(__dirname, 'test.html'), 'utf8')
 
   ejs.renderFile(
     path.join(__dirname, 'test.ejs'),
-    {data: req.body},
+    {data: req.body['devicesData'], year: req.body['data']},
     (err, data) => {
       if (err) {
         res.send(err)
